@@ -1,6 +1,12 @@
 # Lucio - Stepper motor controller
-- Controller hardware (실제이미지 업로드 예정)
+- Controller hardware
  ![Cap 2024-12-23 14-17-44-029](https://github.com/user-attachments/assets/23358563-fd62-4e44-ae52-b043a3e1e24c)
+ ![KakaoTalk_20250103_145450284](https://github.com/user-attachments/assets/9fed6030-97c4-49a8-8474-192126063e1d)
+
+
+
+ https://github.com/user-attachments/assets/ab02d53e-09be-42da-90bd-80bf7aa55c66
+
 
 
 
@@ -11,20 +17,23 @@
 
 
 # Protocol
+- Interface : RS-232
+- Baud rate : 115200 bps
+  
 | **명령어** | **형식**                        | **설명**                          | **응답**                                                                                      |
 |------------|----------------------------------|------------------------------------|---------------------------------------------------------------------------------------------|
-| **CMV**    | `CMV<motor_num>,<absolute_position>` | 모터를 지정된 절대 위치로 이동       | - `OK,<command>`: 성공<br> - `ERR,01`: 잘못된 형식<br> - `ERR,02`: 잘못된 모터 번호            |
-| **SVL**    | `SVL<motor_num>,<speed>`          | 모터 속도를 설정                   | - `OK,<command>`: 성공<br> - `ERR,01`: 잘못된 형식<br> - `ERR,02`: 잘못된 모터 번호<br> - `ERR,03`: 모터 사용 불가 |
-| **GPS**    | `GPS<motor_num>`                  | 모터의 현재 위치를 조회            | - `POS,<motor_num>,<current_position>`: 현재 위치 반환<br> - `ERR,02`: 잘못된 모터 번호<br> - `ERR,03`: 모터 사용 불가 |
-| **GIM**    | `GIM<motor_num>`                  | 모터가 이동 중인지 조회            | - `GIM,<motor_num>,<is_running>`: 이동 상태 반환 (`1`: 이동 중, `0`: 정지)<br> - `ERR,02`: 잘못된 모터 번호<br> - `ERR,03`: 모터 사용 불가 |
-| **GLM**    | `GLM<motor_num>`                  | 모터의 제한값(최소/최대) 조회       | - `LMT,<motor_num>,<min_limit>,<max_limit>`: 제한값 반환<br> - `ERR,02`: 잘못된 모터 번호<br> - `ERR,03`: 모터 사용 불가 |
-| **GVL**    | `GVL<motor_num>`                  | 모터의 현재 속도 조회              | - `SPD,<motor_num>,<speed>`: 속도 반환<br> - `ERR,02`: 잘못된 모터 번호<br> - `ERR,03`: 모터 사용 불가 |
-| **CRS**    | `CRS<motor_num>`                  | 특정 모터를 리셋                   | - `OK,<command>`: 성공<br> - `ERR,02`: 잘못된 모터 번호<br> - `ERR,03`: 모터 사용 불가        |
-| **CHM**    | `CHM`                             | 모든 모터를 리셋                   | - `OK,<command>`: 성공                                                                        |
-| **GHS**    | `GHS<motor_num>`                  | 특정 모터의 홈 상태 조회           | - `HMS,<motor_num>,<home_state>`: 홈 상태 반환<br> - `ERR,02`: 잘못된 모터 번호<br> - `ERR,03`: 모터 사용 불가 |
-| **SAC**    | `SAC<motor_num>,<acceleration>`   | 모터 가속도 설정                   | - `OK,<command>`: 성공<br> - `ERR,01`: 잘못된 형식<br> - `ERR,02`: 잘못된 모터 번호<br> - `ERR,03`: 모터 사용 불가 |
-| **GAC**    | `GAC<motor_num>`                  | 모터 가속도 조회                   | - `ACC,<motor_num>,<acceleration>`: 가속도 반환<br> - `ERR,02`: 잘못된 모터 번호<br> - `ERR,03`: 모터 사용 불가 |
-| **C!!**    | `C!!`                             | 모든 모터 정지                     | - `OK,<command>`: 성공                                                                        |
+| **CMV**    | `CMV<motor_num>,<absolute_position>[CR]` | 모터를 지정된 절대 위치로 이동       | - `OK,<command>`: 성공<br> - `ERR,01`: 잘못된 형식<br> - `ERR,02`: 잘못된 모터 번호            |
+| **SVL**    | `SVL<motor_num>,<speed>[CR]`          | 모터 속도를 설정                   | - `OK,<command>`: 성공<br> - `ERR,01`: 잘못된 형식<br> - `ERR,02`: 잘못된 모터 번호<br> - `ERR,03`: 모터 사용 불가 |
+| **GPS**    | `GPS<motor_num>[CR]`                  | 모터의 현재 위치를 조회            | - `POS,<motor_num>,<current_position>`: 현재 위치 반환<br> - `ERR,02`: 잘못된 모터 번호<br> - `ERR,03`: 모터 사용 불가 |
+| **GIM**    | `GIM<motor_num>[CR]`                  | 모터가 이동 중인지 조회            | - `GIM,<motor_num>,<is_running>`: 이동 상태 반환 (`1`: 이동 중, `0`: 정지)<br> - `ERR,02`: 잘못된 모터 번호<br> - `ERR,03`: 모터 사용 불가 |
+| **GLM**    | `GLM<motor_num>[CR]`                  | 모터의 제한값(최소/최대) 조회       | - `LMT,<motor_num>,<min_limit>,<max_limit>`: 제한값 반환<br> - `ERR,02`: 잘못된 모터 번호<br> - `ERR,03`: 모터 사용 불가 |
+| **GVL**    | `GVL<motor_num>[CR]`                  | 모터의 현재 속도 조회              | - `SPD,<motor_num>,<speed>`: 속도 반환<br> - `ERR,02`: 잘못된 모터 번호<br> - `ERR,03`: 모터 사용 불가 |
+| **CRS**    | `CRS<motor_num>[CR]`                  | 특정 모터를 리셋                   | - `OK,<command>`: 성공<br> - `ERR,02`: 잘못된 모터 번호<br> - `ERR,03`: 모터 사용 불가        |
+| **CHM**    | `CHM[CR]`                             | 모든 모터를 리셋                   | - `OK,<command>`: 성공                                                                        |
+| **GHS**    | `GHS<motor_num>[CR]`                  | 특정 모터의 홈 상태 조회           | - `HMS,<motor_num>,<home_state>`: 홈 상태 반환<br> - `ERR,02`: 잘못된 모터 번호<br> - `ERR,03`: 모터 사용 불가 |
+| **SAC**    | `SAC<motor_num>,<acceleration>[CR]`   | 모터 가속도 설정                   | - `OK,<command>`: 성공<br> - `ERR,01`: 잘못된 형식<br> - `ERR,02`: 잘못된 모터 번호<br> - `ERR,03`: 모터 사용 불가 |
+| **GAC**    | `GAC<motor_num>[CR]`                  | 모터 가속도 조회                   | - `ACC,<motor_num>,<acceleration>`: 가속도 반환<br> - `ERR,02`: 잘못된 모터 번호<br> - `ERR,03`: 모터 사용 불가 |
+| **C!!**    | `C!![CR]`                             | 모든 모터 정지                     | - `OK,<command>`: 성공                                                                        |
 
 
 
